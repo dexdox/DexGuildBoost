@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guild boost by Dex — Прокачка Гильдий Free Fire</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #ff007f;
+            --secondary: #00f2fe;
+            --tiktok-cyan: #00f2fe;
+            --tiktok-pink: #ff0050;
+            --yt-red: #ff0000;
+            --vk-blue: #0077ff;
+            --tg-blue: #0088cc;
+            --accent: #ffaa00;
+            --bg-dark: #05050d;
+            --card-bg: rgba(18, 18, 38, 0.75);
+            --border: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rajdhani', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Background YouTube Video */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .video-background iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 56.25vw;
+            min-height: 100vh;
+            min-width: 177.77vh;
+            transform: translate(-50%, -50%);
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 5, 13, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: -1;
+        }
+
+        /* UI Layer */
+        .ui-layer {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 60px;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: rgba(10, 10, 25, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .tg-btn {
+            background: linear-gradient(135deg, #0088cc, #00c6ff);
+            box-shadow: 0 0 15px rgba(0, 136, 204, 0.4);
+        }
+
+        .tg-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 0 25px rgba(0, 198, 255, 0.7);
+        }
+
+        .tt-btn {
+            background: linear-gradient(135deg, var(--tiktok-pink), #000000);
+            border: 1px solid var(--tiktok-cyan);
+            box-shadow: 0 0 15px rgba(255, 0, 80, 0.4);
+        }
+
+        .tt-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.7);
+        }
+
+        .yt-btn {
+            background: linear-gradient(135deg, #ff0000, #990000);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        }
+
+        .yt-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.7);
+        }
+
+        .vk-btn {
+            background: linear-gradient(135deg, #0077ff, #004499);
+            box-shadow: 0 0 15px rgba(0, 119, 255, 0.4);
+        }
+
+        .vk-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 0 25px rgba(0, 119, 255, 0.7);
+        }
+
+        /* Music Floating Indicator */
+        .music-float-btn {
+            background: rgba(255, 0, 127, 0.2);
+            border: 1px solid var(--primary);
+            color: #ffffff;
+            padding: 10px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 13px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: rgba(20, 15, 40, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 0, 127, 0.4);
+            border-radius: 24px;
+            padding: 35px 40px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 50px rgba(255, 0, 127, 0.15);
+        }
+
+        .hero-tag {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--secondary);
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 38px;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: #d1d1e0;
+            line-height: 1.5;
+        }
+
+        /* Pricing Section */
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            font-size: 32px;
+            margin: 50px 0 30px;
+            letter-spacing: 2px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .price-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px 25px;
+            position: relative;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .price-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(255, 0, 127, 0.25);
+        }
+
+        .price-card.popular {
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(255, 0, 127, 0.2);
+        }
+
+        .badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary), #ff5252);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .bots-count {
+            color: var(--secondary);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .price-box {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 14px;
+        }
+
+        .diamonds {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 34px;
+            font-weight: 900;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(255, 0, 127, 0.3);
+        }
+
+        .buy-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 242, 254, 0.5);
+        }
+
+        /* Gallery Cards */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .gallery-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            border-color: var(--secondary);
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.3);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-caption {
+            padding: 15px;
+            font-size: 15px;
+            font-weight: 600;
+            text-align: center;
+            color: #e0e0f0;
+            background: rgba(10, 10, 25, 0.85);
+            margin-top: auto;
+        }
+
+        /* Social Media Community Section */
+        .social-media-section {
+            background: rgba(12, 12, 28, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--tiktok-cyan);
+            border-radius: 24px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 242, 254, 0.2);
+            animation: widgetGlow 4s infinite alternate;
+        }
+
+        @keyframes widgetGlow {
+            0% { border-color: var(--tiktok-cyan); box-shadow: 0 0 15px rgba(0, 242, 254, 0.3); }
+            50% { border-color: var(--primary); box-shadow: 0 0 20px rgba(255, 0, 127, 0.4); }
+            100% { border-color: var(--yt-red); box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); }
+        }
+
+        .widget-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .widget-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--tiktok-pink), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #fff;
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.5);
+        }
+
+        .widget-info h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .widget-info p {
+            font-size: 14px;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .widget-desc {
+            font-size: 15px;
+            color: #d0d0e0;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .widget-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .widget-link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 12px;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .widget-link-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #8080a0;
+            font-size: 14px;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 28px; }
+            header { justify-content: center; }
+            .widget-links-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background YouTube Video -->
+    <div class="video-background">
+        <iframe src="https://www.youtube.com/embed/6x9azE7ehgM?autoplay=1&mute=1&controls=0&loop=1&playlist=6x9azE7ehgM&showinfo=0&rel=0&iv_load_policy=3"
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                allowfullscreen>
+        </iframe>
+    </div>
+    <div class="video-overlay"></div>
+
+    <!-- Local Background Audio Player -->
+    <audio id="bgMusic" loop autoplay preload="auto">
+        <source src="{{ url_for('static', filename='background.mp3') }}" type="audio/mpeg">
+    </audio>
+
+    <div class="ui-layer">
+
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                💎 Guild boost by Dex
+            </div>
+            <div class="header-actions">
+                <button class="music-float-btn" onclick="toggleAudio()">
+                    <i class="fa-solid fa-compact-disc fa-spin" id="musicIcon"></i> <span id="musicText">Музыка</span>
+                </button>
+                <a href="https://www.tiktok.com/@dextt2.0" target="_blank" class="social-btn tt-btn">
+                    <i class="fa-brands fa-tiktok"></i> TikTok
+                </a>
+                <a href="https://www.youtube.com/@dextt2.0" target="_blank" class="social-btn yt-btn">
+                    <i class="fa-brands fa-youtube"></i> YouTube
+                </a>
+                <a href="https://vk.ru/klayener" target="_blank" class="social-btn vk-btn">
+                    <i class="fa-brands fa-vk"></i> VK
+                </a>
+                <a href="https://t.me/{{ telegram_handle }}" target="_blank" class="social-btn tg-btn">
+                    <i class="fa-brands fa-telegram"></i> Telegram
+                </a>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-banner">
+            <span class="hero-tag"><i class="fa-solid fa-bolt"></i> Мгновенный результат</span>
+            <h1 class="hero-title">Прокачка Гильдии Free Fire за Пару Часов</h1>
+            <p class="hero-description">
+                Хочешь быстро прокачать свою гильдию за пару часов? Напиши мне в личные сообщения, и я помогу тебе!
+            </p>
+        </section>
+
+        <!-- Pricing Cards Section -->
+        <h2 class="section-title">ВЫБЕРИ СВОЙ ТАРИФ</h2>
+
+        <div class="pricing-grid">
+            {% for key, pkg in packages.items() %}
+            <div class="price-card {% if pkg.popular %}popular{% endif %}">
+                {% if pkg.tag %}
+                <div class="badge">{{ pkg.tag }}</div>
+                {% endif %}
+
+                <div class="card-header">
+                    <h3 class="card-title">{{ pkg.title }}</h3>
+                    <div class="bots-count"><i class="fa-solid fa-robot"></i> {{ pkg.bots }} Ботов</div>
+                </div>
+
+                <div class="price-box">
+                    <div class="diamonds">
+                        💎 {{ pkg.diamonds }}
+                    </div>
+                </div>
+
+                <a href="https://t.me/{{ telegram_handle }}?text=Привет!%20Хочу%20заказать%20{{ pkg.title }}%20({{ pkg.bots }}%20ботов)%20за%20{{ pkg.diamonds }}%20алмазов."
+                   target="_blank"
+                   class="buy-btn">
+                   Заказать в Telegram
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Proof Gallery -->
+        <h2 class="section-title">РЕЗУЛЬТАТЫ И ДОКАЗАТЕЛЬСТВА</h2>
+
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="{{ url_for('static', filename='images/proof1.jpg') }}" alt="Уровень 7 MAX">
+                <div class="gallery-caption">🏆 Достижение Уровня 7 (MAX)</div>
+            </div>
+            <div class="gallery-item">
+                <img src="{{ url_for('static', filename='images/proof2.png') }}" alt="Очки активности">
+                <div class="gallery-caption">🎁 400,000+ очков активности и сундуки</div>
+            </div>
+            <div class="gallery-item">
+                <img src="{{ url_for('static', filename='images/proof3.jpg') }}" alt="Работа ботов">
+                <div class="gallery-caption">🤖 Автоматические отряды фарм-ботов</div>
+            </div>
+            <div class="gallery-item">
+                <img src="{{ url_for('static', filename='images/proof4.jpg') }}" alt="Топ Гильдий">
+                <div class="gallery-caption">🔥 Вывод гильдий в Топ сервера</div>
+            </div>
+        </div>
+
+        <!-- Social Media Community Section -->
+        <div class="social-media-section">
+            <div class="widget-header">
+                <div class="widget-avatar">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+                <div class="widget-info">
+                    <h4>Dex Media & Сообщество</h4>
+                    <p>Подписывайся и следи за новостями!</p>
+                </div>
+            </div>
+            <p class="widget-desc">
+                🔥 Смотри нарезы, хайлайты, участвуй в розыгрышах буста и заказывай услуги напрямую через соцсети!
+            </p>
+            <div class="widget-links-grid">
+                <a href="https://t.me/{{ telegram_handle }}" target="_blank" class="widget-link-btn tg-btn">
+                    <i class="fa-brands fa-telegram"></i> Telegram @{{ telegram_handle }}
+                </a>
+                <a href="https://www.tiktok.com/@dextt2.0" target="_blank" class="widget-link-btn tt-btn">
+                    <i class="fa-brands fa-tiktok"></i> TikTok @dextt2.0
+                </a>
+                <a href="https://www.youtube.com/@dextt2.0" target="_blank" class="widget-link-btn yt-btn">
+                    <i class="fa-brands fa-youtube"></i> YouTube @dextt2.0
+                </a>
+                <a href="https://vk.ru/klayener" target="_blank" class="widget-link-btn vk-btn">
+                    <i class="fa-brands fa-vk"></i> ВКонтакте
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            <p>© Guild boost by Dex. Все права защищены. Связь: @{{ telegram_handle }} | TikTok & YT: @dextt2.0 | VK: klayener</p>
+        </footer>
+
+    </div>
+
+    <!-- Automatic Audio Handler -->
+    <script>
+        const audio = document.getElementById('bgMusic');
+        const icon = document.getElementById('musicIcon');
+        const text = document.getElementById('musicText');
+        let isPlaying = false;
+
+        audio.volume = 0.20; // Громкость 20%
+
+        function enableAudio() {
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    icon.className = 'fa-solid fa-compact-disc fa-spin';
+                    text.innerText = 'Музыка';
+                    removeAllListeners();
+                }).catch(err => {
+                    console.log("Ожидание первого взаимодействия...");
+                });
+            }
+        }
+
+        function removeAllListeners() {
+            document.removeEventListener('click', enableAudio);
+            document.removeEventListener('touchstart', enableAudio);
+            document.removeEventListener('mousemove', enableAudio);
+            document.removeEventListener('scroll', enableAudio);
+            document.removeEventListener('keydown', enableAudio);
+        }
+
+        function toggleAudio() {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                icon.className = 'fa-solid fa-volume-xmark';
+                text.innerText = 'Пауза';
+            } else {
+                audio.play();
+                isPlaying = true;
+                icon.className = 'fa-solid fa-compact-disc fa-spin';
+                text.innerText = 'Музыка';
+            }
+        }
+
+        // 1. Пробуем мгновенный запуск
+        document.addEventListener('DOMContentLoaded', () => {
+            audio.play().then(() => {
+                isPlaying = true;
+            }).catch(() => {
+                // 2. Если браузер заблокировал мгновенный Autoplay, вешаем триггеры на ВСЕ возможные действия
+                document.addEventListener('click', enableAudio);
+                document.addEventListener('touchstart', enableAudio);
+                document.addEventListener('mousemove', enableAudio);
+                document.addEventListener('scroll', enableAudio);
+                document.addEventListener('keydown', enableAudio);
+            });
+        });
+    </script>
+</body>
+</html>
