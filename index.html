@@ -6,8 +6,8 @@
     <title>Guild boost by Dex — Прокачка Гильдий Free Fire</title>
 
     <!-- Иконка сайта DexGuildBoost -->
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
-    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
@@ -44,7 +44,6 @@
             position: relative;
         }
 
-        /* Dynamic Moving Video Background (Scrolls seamlessly) */
         /* Динамичный фоновый видеоконтейнер, прокручивающийся со страницей */
         .video-background {
             position: absolute;
@@ -78,7 +77,6 @@
             background: rgba(5, 5, 13, 0.65);
             backdrop-filter: blur(2px);
             z-index: -1;
-        }
         }
 
         /* UI Layer */
@@ -552,7 +550,7 @@
 </head>
 <body>
 
-    <!-- Background YouTube Video (Fixed Screen-covering background) -->
+    <!-- Background YouTube Video -->
     <div class="video-background" id="videoBg">
         <iframe src="https://www.youtube.com/embed/6x9azE7ehgM?autoplay=1&mute=1&controls=0&loop=1&playlist=6x9azE7ehgM&showinfo=0&rel=0&iv_load_policy=3"
                 frameborder="0"
@@ -562,9 +560,9 @@
     </div>
     <div class="video-overlay"></div>
 
-    <!-- Local Background Audio Player -->
+    <!-- Background Audio Player -->
     <audio id="bgMusic" loop autoplay preload="auto">
-        <source src="{{ url_for('static', filename='background.mp3') }}" type="audio/mpeg">
+        <source src="background.mp3" type="audio/mpeg">
     </audio>
 
     <div class="ui-layer">
@@ -587,7 +585,7 @@
                 <a href="https://vk.ru/klayener" target="_blank" class="social-btn vk-btn">
                     <i class="fa-brands fa-vk"></i> VK
                 </a>
-                <a href="https://t.me/{{ telegram_handle }}" target="_blank" class="social-btn tg-btn">
+                <a href="https://t.me/klayener" target="_blank" class="social-btn tg-btn">
                     <i class="fa-brands fa-telegram"></i> Telegram
                 </a>
             </div>
@@ -606,31 +604,59 @@
         <h2 class="section-title">ВЫБЕРИ СВОЙ ТАРИФ</h2>
 
         <div class="pricing-grid">
-            {% for key, pkg in packages.items() %}
-            <div class="price-card {% if pkg.popular %}popular{% endif %}">
-                {% if pkg.tag %}
-                <div class="badge">{{ pkg.tag }}</div>
-                {% endif %}
-
+            <!-- Отряд 1 -->
+            <div class="price-card">
                 <div class="card-header">
-                    <h3 class="card-title">{{ pkg.title }}</h3>
-                    <div class="bots-count"><i class="fa-solid fa-robot"></i> {{ pkg.bots }} Ботов</div>
+                    <h3 class="card-title">1 Отряд</h3>
+                    <div class="bots-count"><i class="fa-solid fa-robot"></i> 4 Ботов</div>
                 </div>
-
                 <div class="price-box">
-                    <div class="diamonds">
-                        💎 {{ pkg.diamonds }}
-                    </div>
+                    <div class="diamonds">💎 310</div>
                     <div class="buy-note">Оплата за 2 удобных пака</div>
                 </div>
-
-                <a href="https://t.me/{{ telegram_handle }}?text=Привет!%20Хочу%20заказать%20{{ pkg.title }}%20({{ pkg.bots }}%20ботов)%20за%20{{ pkg.diamonds }}%20алмазов."
-                   target="_blank"
-                   class="buy-btn">
-                   Заказать в Telegram
-                </a>
+                <a href="https://t.me/klayener?text=Привет!%20Хочу%20заказать%201%20Отряд%20(4%20ботов)%20за%20310%20алмазов." target="_blank" class="buy-btn">Заказать в Telegram</a>
             </div>
-            {% endfor %}
+
+            <!-- Отряд 2 (Популярный) -->
+            <div class="price-card popular">
+                <div class="badge">Популярный</div>
+                <div class="card-header">
+                    <h3 class="card-title">2 Отряда</h3>
+                    <div class="bots-count"><i class="fa-solid fa-robot"></i> 8 Ботов</div>
+                </div>
+                <div class="price-box">
+                    <div class="diamonds">💎 520</div>
+                    <div class="buy-note">Оплата за 2 удобных пака</div>
+                </div>
+                <a href="https://t.me/klayener?text=Привет!%20Хочу%20заказать%202%20Отряда%20(8%20ботов)%20за%20520%20алмазов." target="_blank" class="buy-btn">Заказать в Telegram</a>
+            </div>
+
+            <!-- Отряд 3 -->
+            <div class="price-card">
+                <div class="card-header">
+                    <h3 class="card-title">3 Отряда</h3>
+                    <div class="bots-count"><i class="fa-solid fa-robot"></i> 12 Ботов</div>
+                </div>
+                <div class="price-box">
+                    <div class="diamonds">💎 720</div>
+                    <div class="buy-note">Оплата за 2 удобных пака</div>
+                </div>
+                <a href="https://t.me/klayener?text=Привет!%20Хочу%20заказать%203%20Отряда%20(12%20ботов)%20за%20720%20алмазов." target="_blank" class="buy-btn">Заказать в Telegram</a>
+            </div>
+
+            <!-- Отряд 4 -->
+            <div class="price-card">
+                <div class="badge" style="background: linear-gradient(135deg, var(--accent), #ff5252);">Ультра-Буст 🔥</div>
+                <div class="card-header">
+                    <h3 class="card-title">4 Отряда</h3>
+                    <div class="bots-count"><i class="fa-solid fa-robot"></i> 16 Ботов</div>
+                </div>
+                <div class="price-box">
+                    <div class="diamonds">💎 1060</div>
+                    <div class="buy-note">Оплата за 2 удобных пака</div>
+                </div>
+                <a href="https://t.me/klayener?text=Привет!%20Хочу%20заказать%204%20Отряда%20(16%20ботов)%20за%201060%20алмазов." target="_blank" class="buy-btn">Заказать в Telegram</a>
+            </div>
         </div>
 
         <!-- Proof Gallery -->
@@ -638,19 +664,19 @@
 
         <div class="gallery-grid">
             <div class="gallery-item">
-                <img src="{{ url_for('static', filename='images/proof1.jpg') }}" alt="Уровень 7 MAX">
+                <img src="images/proof1.jpg" alt="Уровень 7 MAX">
                 <div class="gallery-caption">🏆 Достижение Уровня 7 (MAX)</div>
             </div>
             <div class="gallery-item">
-                <img src="{{ url_for('static', filename='images/proof2.png') }}" alt="Очки активности">
+                <img src="images/proof2.png" alt="Очки активности">
                 <div class="gallery-caption">🎁 400,000+ очков активности и сундуки</div>
             </div>
             <div class="gallery-item">
-                <img src="{{ url_for('static', filename='images/proof3.jpg') }}" alt="Работа ботов">
+                <img src="images/proof3.jpg" alt="Работа ботов">
                 <div class="gallery-caption">🤖 Автоматические отряды фарм-ботов</div>
             </div>
             <div class="gallery-item">
-                <img src="{{ url_for('static', filename='images/proof4.jpg') }}" alt="Топ Гильдий">
+                <img src="images/proof4.jpg" alt="Топ Гильдий">
                 <div class="gallery-caption">🔥 Вывод гильдий в Топ сервера</div>
             </div>
         </div>
@@ -670,8 +696,8 @@
                 🔥 Смотри нарезы, хайлайты, участвуй в розыгрышах буста и заказывай услуги напрямую через соцсети!
             </p>
             <div class="widget-links-grid">
-                <a href="https://t.me/{{ telegram_handle }}" target="_blank" class="widget-link-btn tg-btn">
-                    <i class="fa-brands fa-telegram"></i> Telegram @{{ telegram_handle }}
+                <a href="https://t.me/klayener" target="_blank" class="widget-link-btn tg-btn">
+                    <i class="fa-brands fa-telegram"></i> Telegram @klayener
                 </a>
                 <a href="https://www.tiktok.com/@dextt2.0" target="_blank" class="widget-link-btn tt-btn">
                     <i class="fa-brands fa-tiktok"></i> TikTok @dextt2.0
@@ -691,11 +717,10 @@
 
     </div>
 
-    <!-- 3D Card Tilt Effect, Video Interactive Motion & Audio Handler Script -->
+    <!-- Script -->
     <script>
         const videoBg = document.getElementById('videoBg');
 
-        // Легкое движение видеофона вслед за мышью
         document.addEventListener('mousemove', (e) => {
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
@@ -708,7 +733,6 @@
             }
         });
 
-        // 3D-наклон карточек
         document.querySelectorAll('.price-card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
@@ -729,7 +753,6 @@
             });
         });
 
-        // Плеер фоновой музыки
         const audio = document.getElementById('bgMusic');
         const icon = document.getElementById('musicIcon');
         const text = document.getElementById('musicText');
