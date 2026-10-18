@@ -9,8 +9,8 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="shortcut icon" type="image/png" href="favicon.png">
 
-    <!-- Игровые шрифты -->
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,600;0,800;0,900;1,700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Волшебные и футуристичные шрифты -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Exo+2:wght@600;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
     <style>
@@ -18,7 +18,7 @@
             --primary: #ff007f;
             --secondary: #00f2fe;
             --accent: #ffaa00;
-            --neon-green: #00ff88;
+            --magic-purple: #b537ff;
             --bg-dark: #05050d;
             --card-bg: rgba(14, 14, 30, 0.75);
             --border: rgba(255, 255, 255, 0.18);
@@ -41,7 +41,7 @@
             position: relative;
         }
 
-        /* Фоновый интерактивный снег / частицы */
+        /* Холст неонового снега */
         #snowCanvas {
             position: fixed;
             top: 0;
@@ -94,7 +94,36 @@
             padding: 15px 12px 40px;
         }
 
-        /* Красивая шапка */
+        /* ✨ ВОЛШЕБНЫЙ АНИМИРОВАННЫЙ ТЕКСТ С НЕОНОВЫМ СВЕЧЕНИЕМ ✨ */
+        .magic-text {
+            font-family: 'Orbitron', 'Cinzel Decorative', sans-serif;
+            font-weight: 900;
+            background: linear-gradient(120deg, #ffffff 0%, #00f2fe 25%, #b537ff 50%, #ff007f 75%, #ffaa00 100%);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: magicGradient 5s linear infinite;
+            filter: drop-shadow(0 0 12px rgba(0, 242, 254, 0.6));
+            letter-spacing: 1px;
+        }
+
+        @keyframes magicGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Подсветка текста с дышащей анимированной аурой */
+        .magic-glow-title {
+            animation: magicGradient 5s linear infinite, auraGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes auraGlow {
+            0% { filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.5)) drop-shadow(0 0 20px rgba(181, 55, 255, 0.3)); }
+            100% { filter: drop-shadow(0 0 16px rgba(255, 0, 127, 0.8)) drop-shadow(0 0 30px rgba(0, 242, 254, 0.6)); }
+        }
+
+        /* Шапка */
         header {
             display: flex;
             justify-content: center;
@@ -105,36 +134,14 @@
             border: 1px solid var(--border);
             border-radius: 18px;
             margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 20px rgba(0, 242, 254, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             animation: borderGlow 6s infinite alternate;
         }
 
         @keyframes borderGlow {
             0% { border-color: rgba(255, 0, 127, 0.4); box-shadow: 0 0 20px rgba(255, 0, 127, 0.3); }
             50% { border-color: rgba(0, 242, 254, 0.5); box-shadow: 0 0 25px rgba(0, 242, 254, 0.4); }
-            100% { border-color: rgba(0, 255, 136, 0.4); box-shadow: 0 0 20px rgba(0, 255, 136, 0.3); }
-        }
-
-        /* 3D Неоновый текст с объёмом */
-        .3d-text {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            text-transform: uppercase;
-            background: linear-gradient(135deg, #ffffff 0%, var(--secondary) 50%, var(--primary) 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow:
-                0 1px 0 #00d2fe,
-                0 2px 0 #00b2de,
-                0 3px 0 #0092be,
-                0 4px 10px rgba(0, 242, 254, 0.6),
-                0 0 20px rgba(255, 0, 127, 0.5);
-            animation: shine 4s linear infinite;
-        }
-
-        @keyframes shine {
-            to { background-position: 200% center; }
+            100% { border-color: rgba(181, 55, 255, 0.4); box-shadow: 0 0 20px rgba(181, 55, 255, 0.3); }
         }
 
         .logo {
@@ -142,7 +149,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            letter-spacing: 1.5px;
         }
 
         /* Hero Banner */
@@ -153,14 +159,14 @@
             border-radius: 20px;
             padding: 24px 18px;
             margin-bottom: 25px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 0, 127, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
             text-align: center;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .hero-banner:hover {
             transform: translateY(-3px);
-            box-shadow: 0 20px 45px rgba(255, 0, 127, 0.3);
+            box-shadow: 0 20px 45px rgba(255, 0, 127, 0.35);
         }
 
         .hero-tag {
@@ -177,15 +183,16 @@
 
         .hero-title {
             font-size: 24px;
-            line-height: 1.3;
-            margin-bottom: 10px;
+            line-height: 1.35;
+            margin-bottom: 12px;
         }
 
         .hero-description {
-            font-size: 14px;
-            color: #d0d0e0;
+            font-size: 15px;
+            color: #e0e0f8;
             line-height: 1.5;
             font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
 
         /* Section Title */
@@ -260,7 +267,7 @@
             color: var(--secondary);
             font-size: 14px;
             font-weight: 700;
-            text-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
+            text-shadow: 0 0 12px rgba(0, 242, 254, 0.6);
         }
 
         .price-box {
@@ -276,12 +283,10 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 28px;
             font-weight: 900;
-            color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            text-shadow: 0 0 15px rgba(0, 242, 254, 0.6);
         }
 
         .buy-btn {
@@ -381,8 +386,7 @@
         }
 
         .widget-info h4 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 800;
         }
 
@@ -450,7 +454,7 @@
         @media (min-width: 768px) {
             .ui-layer { max-width: 1100px; padding: 20px 20px 50px; }
             .logo { font-size: 26px; }
-            .hero-title { font-size: 28px; }
+            .hero-title { font-size: 30px; }
             .pricing-grid { grid-template-columns: repeat(4, 1fr); }
             .gallery-grid { grid-template-columns: repeat(4, 1fr); }
             .gallery-item img { height: 150px; }
@@ -482,7 +486,7 @@
 
         <!-- Чистая аккуратная шапка -->
         <header>
-            <div class="logo 3d-text">
+            <div class="logo magic-text magic-glow-title">
                 💎 Guild boost by Dex
             </div>
         </header>
@@ -490,24 +494,24 @@
         <!-- Hero Section -->
         <section class="hero-banner">
             <span class="hero-tag"><i class="fa-solid fa-bolt"></i> Мгновенный результат</span>
-            <h1 class="hero-title 3d-text">Прокачка Гильдии Free Fire за Пару Часов</h1>
+            <h1 class="hero-title magic-text magic-glow-title">Прокачка Гильдии Free Fire за Пару Часов</h1>
             <p class="hero-description">
                 Хочешь быстро прокачать свою гильдию? Напиши мне в личные сообщения, и я помогу тебе!
             </p>
         </section>
 
         <!-- Pricing Cards Section -->
-        <h2 class="section-title 3d-text">ВЫБЕРИ СВОЙ ТАРИФ</h2>
+        <h2 class="section-title magic-text magic-glow-title">ВЫБЕРИ СВОЙ ТАРИФ</h2>
 
         <div class="pricing-grid">
             <!-- Отряд 1 -->
             <div class="price-card">
                 <div class="card-header">
-                    <h3 class="card-title">1 Отряд</h3>
+                    <h3 class="card-title magic-text">1 Отряд</h3>
                     <div class="bots-count"><i class="fa-solid fa-robot"></i> 4 Ботов</div>
                 </div>
                 <div class="price-box">
-                    <div class="diamonds">💎 310</div>
+                    <div class="diamonds magic-text">💎 310</div>
                 </div>
                 <a href="https://t.me/klayener?text=Привет!%20Хочу%20заказать%201%20Отряд%20(4%20ботов)%20за%20310%20алмазов." target="_blank" class="buy-btn">Заказать</a>
             </div>
@@ -516,11 +520,11 @@
             <div class="price-card popular">
                 <div class="badge">Популярный</div>
                 <div class="card-header">
-                    <h3 class="card-title">2 Отряда</h3>
+                    <h3 class="card-title magic-text">2 Отряда</h3>
                     <div class="bots-count"><i class="fa-solid fa-robot"></i> 8 Ботов</div>
                 </div>
                 <div class="price-box">
-                    <div class="diamonds">💎 520</div>
+                    <div class="diamonds magic-text">💎 520</div>
                 </div>
                 <a href="https://t.me/klayener?text=Привет!%20Хочу%20заказать%202%20Отряда%20(8%20ботов)%20за%20520%20алмазов." target="_blank" class="buy-btn">Заказать</a>
             </div>
@@ -528,11 +532,11 @@
             <!-- Отряд 3 -->
             <div class="price-card">
                 <div class="card-header">
-                    <h3 class="card-title">3 Отряда</h3>
+                    <h3 class="card-title magic-text">3 Отряда</h3>
                     <div class="bots-count"><i class="fa-solid fa-robot"></i> 12 Ботов</div>
                 </div>
                 <div class="price-box">
-                    <div class="diamonds">💎 720</div>
+                    <div class="diamonds magic-text">💎 720</div>
                 </div>
                 <a href="https://t.me/klayener?text=Привет!%20Хочу%20заказать%203%20Отряда%20(12%20ботов)%20за%20720%20алмазов." target="_blank" class="buy-btn">Заказать</a>
             </div>
@@ -541,18 +545,18 @@
             <div class="price-card">
                 <div class="badge" style="background: linear-gradient(135deg, var(--accent), #ff5252);">Ультра-Буст 🔥</div>
                 <div class="card-header">
-                    <h3 class="card-title">4 Отряда</h3>
+                    <h3 class="card-title magic-text">4 Отряда</h3>
                     <div class="bots-count"><i class="fa-solid fa-robot"></i> 16 Ботов</div>
                 </div>
                 <div class="price-box">
-                    <div class="diamonds">💎 1060</div>
+                    <div class="diamonds magic-text">💎 1060</div>
                 </div>
                 <a href="https://t.me/klayener?text=Привет!%20Хочу%20заказать%204%20Отряда%20(16%20ботов)%20за%201060%20алмазов." target="_blank" class="buy-btn">Заказать</a>
             </div>
         </div>
 
         <!-- Proof Gallery -->
-        <h2 class="section-title 3d-text">РЕЗУЛЬТАТЫ</h2>
+        <h2 class="section-title magic-text magic-glow-title">РЕЗУЛЬТАТЫ</h2>
 
         <div class="gallery-grid">
             <div class="gallery-item">
@@ -580,7 +584,7 @@
                     <i class="fa-solid fa-gamepad"></i>
                 </div>
                 <div class="widget-info">
-                    <h4>Dex Media & Сообщество</h4>
+                    <h4 class="magic-text">Dex Media & Сообщество</h4>
                     <p>Следи за новостями!</p>
                 </div>
             </div>
@@ -612,9 +616,9 @@
 
     </div>
 
-    <!-- Скрипты: Снег, Звуки интерфейса и Управление Музыкой -->
+    <!-- Скрипты: Падающие неоновые искорки/снег, Звуковой интерактив и Музыка -->
     <script>
-        /* 1. Генератор падающего снега/частиц */
+        /* 1. Генератор волшебного снега/частиц */
         const canvas = document.getElementById('snowCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -633,7 +637,7 @@
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
                 radius: Math.random() * 2 + 0.8,
-                color: Math.random() > 0.5 ? '#00f2fe' : '#ff007f',
+                color: Math.random() > 0.5 ? '#00f2fe' : (Math.random() > 0.5 ? '#b537ff' : '#ff007f'),
                 speedY: Math.random() * 1 + 0.3,
                 speedX: Math.random() * 0.5 - 0.25,
                 opacity: Math.random() * 0.7 + 0.3
@@ -647,7 +651,7 @@
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
                 ctx.fillStyle = p.color;
                 ctx.globalAlpha = p.opacity;
-                ctx.shadowBlur = 8;
+                ctx.shadowBlur = 10;
                 ctx.shadowColor = p.color;
                 ctx.fill();
 
@@ -663,7 +667,7 @@
         }
         animateParticles();
 
-        /* 2. Звуковое сопровождение (Hover & Click SFX) */
+        /* 2. Звуковые щелчки интерфейса */
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         function playHoverSound() {
@@ -671,8 +675,8 @@
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'sine';
-            osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.05);
+            osc.frequency.setValueAtTime(450, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.05);
             gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
             osc.connect(gain);
@@ -686,8 +690,8 @@
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'triangle';
-            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.08);
+            osc.frequency.setValueAtTime(650, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1300, audioCtx.currentTime + 0.08);
             gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
             osc.connect(gain);
@@ -696,7 +700,6 @@
             osc.stop(audioCtx.currentTime + 0.08);
         }
 
-        // Привязываем звуки к кнопкам и карточкам
         document.querySelectorAll('a, button, .price-card, .gallery-item').forEach(el => {
             el.addEventListener('mouseenter', playHoverSound);
             el.addEventListener('click', playClickSound);
