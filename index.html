@@ -10,7 +10,7 @@
     <link rel="shortcut icon" type="image/png" href="favicon.png">
 
     <!-- Игровые шрифты -->
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,600;0,800;0,900;1,700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
     <style>
@@ -20,8 +20,8 @@
             --accent: #ffaa00;
             --neon-green: #00ff88;
             --bg-dark: #05050d;
-            --card-bg: rgba(14, 14, 30, 0.85);
-            --border: rgba(255, 255, 255, 0.15);
+            --card-bg: rgba(14, 14, 30, 0.75);
+            --border: rgba(255, 255, 255, 0.18);
         }
 
         * {
@@ -41,6 +41,17 @@
             position: relative;
         }
 
+        /* Фоновый интерактивный снег / частицы */
+        #snowCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
         /* Видеофон */
         .video-background {
             position: fixed;
@@ -48,7 +59,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: -2;
+            z-index: -3;
             overflow: hidden;
             pointer-events: none;
         }
@@ -69,8 +80,8 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(5, 5, 13, 0.72);
-            z-index: -1;
+            background: radial-gradient(circle, rgba(10, 10, 25, 0.65) 0%, rgba(5, 5, 13, 0.85) 100%);
+            z-index: -2;
         }
 
         /* UI Layer */
@@ -83,172 +94,203 @@
             padding: 15px 12px 40px;
         }
 
-        /* Минималистичная стильная шапка */
+        /* Красивая шапка */
         header {
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 14px 20px;
-            background: rgba(10, 10, 25, 0.85);
+            background: rgba(10, 10, 25, 0.80);
             backdrop-filter: blur(12px);
             border: 1px solid var(--border);
             border-radius: 18px;
             margin-bottom: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 20px rgba(0, 242, 254, 0.2);
+            animation: borderGlow 6s infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% { border-color: rgba(255, 0, 127, 0.4); box-shadow: 0 0 20px rgba(255, 0, 127, 0.3); }
+            50% { border-color: rgba(0, 242, 254, 0.5); box-shadow: 0 0 25px rgba(0, 242, 254, 0.4); }
+            100% { border-color: rgba(0, 255, 136, 0.4); box-shadow: 0 0 20px rgba(0, 255, 136, 0.3); }
+        }
+
+        /* 3D Неоновый текст с объёмом */
+        .3d-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #ffffff 0%, var(--secondary) 50%, var(--primary) 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow:
+                0 1px 0 #00d2fe,
+                0 2px 0 #00b2de,
+                0 3px 0 #0092be,
+                0 4px 10px rgba(0, 242, 254, 0.6),
+                0 0 20px rgba(255, 0, 127, 0.5);
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
         }
 
         .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 20px;
-            font-weight: 900;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 22px;
             display: flex;
             align-items: center;
             gap: 8px;
-            letter-spacing: 1px;
-            white-space: nowrap;
+            letter-spacing: 1.5px;
         }
 
         /* Hero Banner */
         .hero-banner {
-            background: rgba(16, 12, 32, 0.85);
+            background: rgba(16, 12, 32, 0.80);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 0, 127, 0.4);
-            border-radius: 18px;
-            padding: 22px 16px;
+            border-radius: 20px;
+            padding: 24px 18px;
             margin-bottom: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 0, 127, 0.15);
             text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hero-banner:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 45px rgba(255, 0, 127, 0.3);
         }
 
         .hero-tag {
             font-family: 'Orbitron', sans-serif;
             color: var(--secondary);
             font-size: 11px;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             display: inline-block;
             font-weight: 800;
+            text-shadow: 0 0 10px var(--secondary);
         }
 
         .hero-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 22px;
-            font-weight: 900;
-            line-height: 1.25;
-            margin-bottom: 8px;
-            color: #ffffff;
+            font-size: 24px;
+            line-height: 1.3;
+            margin-bottom: 10px;
         }
 
         .hero-description {
             font-size: 14px;
             color: #d0d0e0;
-            line-height: 1.4;
+            line-height: 1.5;
             font-weight: 600;
         }
 
         /* Section Title */
         .section-title {
-            font-family: 'Orbitron', sans-serif;
             text-align: center;
-            font-size: 20px;
-            font-weight: 900;
-            margin: 25px 0 15px;
-            letter-spacing: 1px;
-            color: #ffffff;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+            font-size: 22px;
+            margin: 30px 0 18px;
+            letter-spacing: 2px;
         }
 
         /* Pricing Grid */
         .pricing-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
+            gap: 16px;
             margin-bottom: 30px;
         }
 
         .price-card {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 18px 14px;
+            border-radius: 20px;
+            padding: 20px 16px;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .price-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: var(--secondary);
+            box-shadow: 0 15px 35px rgba(0, 242, 254, 0.35), 0 0 20px rgba(255, 0, 127, 0.2);
         }
 
         .price-card.popular {
             border-color: var(--primary);
-            box-shadow: 0 8px 25px rgba(255, 0, 127, 0.3);
+            box-shadow: 0 10px 30px rgba(255, 0, 127, 0.3);
         }
 
         .badge {
             position: absolute;
-            top: -10px;
-            right: 15px;
+            top: -11px;
+            right: 18px;
             background: linear-gradient(135deg, var(--primary), #ff5252);
             color: white;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 9px;
+            padding: 4px 12px;
+            border-radius: 14px;
+            font-size: 10px;
             font-weight: 900;
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.8);
         }
 
         .card-header {
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .card-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 800;
             margin-bottom: 4px;
         }
 
         .bots-count {
             color: var(--secondary);
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
+            text-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
         }
 
         .price-box {
             text-align: center;
-            margin: 12px 0;
-            padding: 10px;
-            background: rgba(5, 5, 15, 0.7);
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.06);
+            margin: 14px 0;
+            padding: 12px;
+            background: rgba(5, 5, 18, 0.7);
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.08);
         }
 
         .diamonds {
             font-family: 'Orbitron', sans-serif;
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 900;
             color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+            gap: 8px;
+            text-shadow: 0 0 15px rgba(0, 242, 254, 0.6);
         }
 
         .buy-btn {
             width: 100%;
-            padding: 12px;
+            padding: 13px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background-size: 200% auto;
             color: white;
             font-weight: 900;
             font-size: 14px;
@@ -258,35 +300,48 @@
             text-align: center;
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(255, 0, 127, 0.4);
+            box-shadow: 0 5px 20px rgba(255, 0, 127, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .buy-btn:hover {
+            background-position: right center;
+            box-shadow: 0 8px 25px rgba(0, 242, 254, 0.7);
+            transform: scale(1.02);
         }
 
         /* Gallery Grid */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 30px;
         }
 
         .gallery-item {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 16px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--secondary);
         }
 
         .gallery-item img {
             width: 100%;
-            height: 110px;
+            height: 120px;
             object-fit: cover;
         }
 
         .gallery-caption {
-            padding: 6px;
-            font-size: 10px;
+            padding: 8px;
+            font-size: 11px;
             font-weight: 700;
             text-align: center;
             color: #ffffff;
@@ -296,42 +351,43 @@
         /* Social Media Section */
         .social-media-section {
             background: rgba(12, 12, 28, 0.85);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--secondary);
-            border-radius: 18px;
-            padding: 18px 14px;
+            border-radius: 20px;
+            padding: 20px 16px;
             margin: 25px 0;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .widget-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 12px;
+            margin-bottom: 12px;
         }
 
         .widget-avatar {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 20px;
             color: #fff;
             border: 2px solid #ffffff;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.5);
         }
 
         .widget-info h4 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 800;
         }
 
         .widget-info p {
-            font-size: 11px;
+            font-size: 12px;
             color: var(--secondary);
             font-weight: 700;
         }
@@ -339,7 +395,7 @@
         .widget-desc {
             font-size: 13px;
             color: #d0d0e0;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
             line-height: 1.4;
             font-weight: 600;
         }
@@ -347,7 +403,7 @@
         .widget-links-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 8px;
+            gap: 10px;
         }
 
         .widget-link-btn, .music-float-btn {
@@ -356,16 +412,22 @@
             justify-content: center;
             gap: 8px;
             width: 100%;
-            padding: 11px;
+            padding: 12px;
             color: white;
             text-decoration: none;
             font-weight: 800;
-            font-size: 12px;
-            border-radius: 10px;
+            font-size: 13px;
+            border-radius: 12px;
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
             border: none;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .widget-link-btn:hover, .music-float-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 242, 254, 0.5);
         }
 
         .tg-btn { background: linear-gradient(135deg, #0088cc, #00c6ff); }
@@ -378,7 +440,7 @@
             text-align: center;
             padding: 15px;
             color: #8080a0;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             border-top: 1px solid var(--border);
             margin-top: 20px;
@@ -387,7 +449,8 @@
         /* Десктоп версия */
         @media (min-width: 768px) {
             .ui-layer { max-width: 1100px; padding: 20px 20px 50px; }
-            .logo { font-size: 24px; }
+            .logo { font-size: 26px; }
+            .hero-title { font-size: 28px; }
             .pricing-grid { grid-template-columns: repeat(4, 1fr); }
             .gallery-grid { grid-template-columns: repeat(4, 1fr); }
             .gallery-item img { height: 150px; }
@@ -397,7 +460,10 @@
 </head>
 <body>
 
-    <!-- Статичный видеофон -->
+    <!-- Холст для падающего неонового снега -->
+    <canvas id="snowCanvas"></canvas>
+
+    <!-- Видеофон -->
     <div class="video-background" id="videoBg">
         <iframe src="https://www.youtube.com/embed/6x9azE7ehgM?autoplay=1&mute=1&controls=0&loop=1&playlist=6x9azE7ehgM&showinfo=0&rel=0&iv_load_policy=3"
                 frameborder="0"
@@ -416,7 +482,7 @@
 
         <!-- Чистая аккуратная шапка -->
         <header>
-            <div class="logo">
+            <div class="logo 3d-text">
                 💎 Guild boost by Dex
             </div>
         </header>
@@ -424,14 +490,14 @@
         <!-- Hero Section -->
         <section class="hero-banner">
             <span class="hero-tag"><i class="fa-solid fa-bolt"></i> Мгновенный результат</span>
-            <h1 class="hero-title">Прокачка Гильдии Free Fire за Пару Часов</h1>
+            <h1 class="hero-title 3d-text">Прокачка Гильдии Free Fire за Пару Часов</h1>
             <p class="hero-description">
                 Хочешь быстро прокачать свою гильдию? Напиши мне в личные сообщения, и я помогу тебе!
             </p>
         </section>
 
         <!-- Pricing Cards Section -->
-        <h2 class="section-title">ВЫБЕРИ СВОЙ ТАРИФ</h2>
+        <h2 class="section-title 3d-text">ВЫБЕРИ СВОЙ ТАРИФ</h2>
 
         <div class="pricing-grid">
             <!-- Отряд 1 -->
@@ -486,7 +552,7 @@
         </div>
 
         <!-- Proof Gallery -->
-        <h2 class="section-title">РЕЗУЛЬТАТЫ</h2>
+        <h2 class="section-title 3d-text">РЕЗУЛЬТАТЫ</h2>
 
         <div class="gallery-grid">
             <div class="gallery-item">
@@ -546,7 +612,97 @@
 
     </div>
 
+    <!-- Скрипты: Снег, Звуки интерфейса и Управление Музыкой -->
     <script>
+        /* 1. Генератор падающего снега/частиц */
+        const canvas = document.getElementById('snowCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const particles = [];
+        const particleCount = window.innerWidth < 768 ? 35 : 70;
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 0.8,
+                color: Math.random() > 0.5 ? '#00f2fe' : '#ff007f',
+                speedY: Math.random() * 1 + 0.3,
+                speedX: Math.random() * 0.5 - 0.25,
+                opacity: Math.random() * 0.7 + 0.3
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.opacity;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = p.color;
+                ctx.fill();
+
+                p.y += p.speedY;
+                p.x += p.speedX;
+
+                if (p.y > canvas.height) {
+                    p.y = -5;
+                    p.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        /* 2. Звуковое сопровождение (Hover & Click SFX) */
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playHoverSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.05);
+            gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.05);
+        }
+
+        function playClickSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.08);
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.08);
+        }
+
+        // Привязываем звуки к кнопкам и карточкам
+        document.querySelectorAll('a, button, .price-card, .gallery-item').forEach(el => {
+            el.addEventListener('mouseenter', playHoverSound);
+            el.addEventListener('click', playClickSound);
+        });
+
+        /* 3. Управление фоновой музыкой */
         const audio = document.getElementById('bgMusic');
         const icon = document.getElementById('musicIcon');
         const text = document.getElementById('musicText');
