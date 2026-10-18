@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# Тарифная сетка буста гильдий (обновленные цены)
+# Тарифная сетка буста гильдий
 BOOST_PACKAGES = {
     1: {
         "title": "1 Отряд",
