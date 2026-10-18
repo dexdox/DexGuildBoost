@@ -6,10 +6,8 @@
     <title>Guild boost by Dex — Прокачка Гильдий Free Fire</title>
 
     <!-- Иконка сайта DexGuildBoost -->
-    <link rel="icon" type="image/png"
-          href="{{ url_for('static', filename='favicon.png') }}">
-    <link rel="shortcut icon" type="image/png"
-          href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
@@ -42,40 +40,45 @@
             color: #ffffff;
             overflow-x: hidden;
             min-height: 100vh;
+            perspective: 1200px;
+            position: relative;
         }
 
-        /* Background YouTube Video */
+        /* Dynamic Moving Video Background (Scrolls seamlessly) */
+        /* Динамичный фоновый видеоконтейнер, прокручивающийся со страницей */
         .video-background {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             z-index: -2;
             overflow: hidden;
             pointer-events: none;
+            will-change: transform;
         }
 
         .video-background iframe {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 100vw;
-            height: 56.25vw;
+            width: 120vw;
+            height: 68vw;
             min-height: 100vh;
             min-width: 177.77vh;
             transform: translate(-50%, -50%);
         }
 
         .video-overlay {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(5, 5, 13, 0.85);
-            backdrop-filter: blur(5px);
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 13, 0.65);
+            backdrop-filter: blur(2px);
             z-index: -1;
+        }
         }
 
         /* UI Layer */
@@ -94,14 +97,21 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 30px;
-            background: rgba(10, 10, 25, 0.75);
+            background: rgba(10, 10, 25, 0.8);
             backdrop-filter: blur(16px);
             border: 1px solid var(--border);
             border-radius: 20px;
             margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
             gap: 15px;
             flex-wrap: wrap;
+            transform-style: preserve-3d;
+            animation: floatHeader 6s ease-in-out infinite;
+        }
+
+        @keyframes floatHeader {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-4px); }
         }
 
         .logo {
@@ -115,6 +125,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            filter: drop-shadow(0 0 10px rgba(255, 0, 127, 0.4));
         }
 
         .header-actions {
@@ -134,7 +145,7 @@
             text-decoration: none;
             font-weight: 700;
             font-size: 14px;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .tg-btn {
@@ -143,8 +154,8 @@
         }
 
         .tg-btn:hover {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 0 25px rgba(0, 198, 255, 0.7);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 198, 255, 0.8);
         }
 
         .tt-btn {
@@ -154,8 +165,8 @@
         }
 
         .tt-btn:hover {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 0 25px rgba(0, 242, 254, 0.7);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.8);
         }
 
         .yt-btn {
@@ -164,8 +175,8 @@
         }
 
         .yt-btn:hover {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.7);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
         }
 
         .vk-btn {
@@ -174,13 +185,13 @@
         }
 
         .vk-btn:hover {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 0 25px rgba(0, 119, 255, 0.7);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 119, 255, 0.8);
         }
 
         /* Music Floating Indicator */
         .music-float-btn {
-            background: rgba(255, 0, 127, 0.2);
+            background: rgba(255, 0, 127, 0.25);
             border: 1px solid var(--primary);
             color: #ffffff;
             padding: 10px 18px;
@@ -194,18 +205,42 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 13px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+        }
+
+        .music-float-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.7);
         }
 
         /* Hero Banner */
         .hero-banner {
-            background: rgba(20, 15, 40, 0.8);
+            background: rgba(20, 15, 40, 0.85);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 0, 127, 0.4);
+            border: 1px solid rgba(255, 0, 127, 0.5);
             border-radius: 24px;
-            padding: 35px 40px;
+            padding: 40px;
             margin-bottom: 50px;
-            box-shadow: 0 20px 50px rgba(255, 0, 127, 0.15);
+            box-shadow: 0 20px 50px rgba(255, 0, 127, 0.2), inset 0 0 20px rgba(0, 242, 254, 0.1);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(20px);
+        }
+
+        .hero-banner::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
+            transform: rotate(30deg);
+            pointer-events: none;
+            animation: shine 6s linear infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateY(-100%) rotate(30deg); }
+            100% { transform: translateY(100%) rotate(30deg); }
         }
 
         .hero-tag {
@@ -235,20 +270,24 @@
             line-height: 1.5;
         }
 
-        /* Pricing Section */
+        /* Pricing Section (3D Tilt Cards) */
         .section-title {
             font-family: 'Orbitron', sans-serif;
             text-align: center;
             font-size: 32px;
             margin: 50px 0 30px;
             letter-spacing: 2px;
+            background: linear-gradient(45deg, #fff, var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
+            gap: 30px;
             margin-bottom: 50px;
+            perspective: 1000px;
         }
 
         .price-card {
@@ -258,21 +297,23 @@
             border-radius: 20px;
             padding: 30px 25px;
             position: relative;
-            transition: all 0.4s ease;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            transition: transform 0.1s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
 
         .price-card:hover {
-            transform: translateY(-8px);
             border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(255, 0, 127, 0.25);
+            box-shadow: 0 25px 50px rgba(255, 0, 127, 0.35), 0 0 20px rgba(0, 242, 254, 0.2);
         }
 
         .price-card.popular {
             border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(255, 0, 127, 0.2);
+            box-shadow: 0 15px 40px rgba(255, 0, 127, 0.25);
         }
 
         .badge {
@@ -286,11 +327,14 @@
             font-size: 12px;
             font-weight: 700;
             font-family: 'Orbitron', sans-serif;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.6);
+            transform: translateZ(30px);
         }
 
         .card-header {
             text-align: center;
             margin-bottom: 20px;
+            transform: translateZ(20px);
         }
 
         .card-title {
@@ -309,8 +353,10 @@
             text-align: center;
             margin: 20px 0;
             padding: 15px;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transform: translateZ(25px);
         }
 
         .diamonds {
@@ -322,6 +368,14 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            text-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+        }
+
+        .buy-note {
+            font-size: 12px;
+            color: var(--secondary);
+            margin-top: 5px;
+            font-weight: 600;
         }
 
         .buy-btn {
@@ -338,12 +392,13 @@
             text-decoration: none;
             display: inline-block;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(255, 0, 127, 0.3);
+            box-shadow: 0 5px 20px rgba(255, 0, 127, 0.4);
+            transform: translateZ(30px);
         }
 
         .buy-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 25px rgba(0, 242, 254, 0.5);
+            transform: translateZ(35px) scale(1.03);
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.7);
         }
 
         /* Gallery Cards */
@@ -359,15 +414,16 @@
             border: 1px solid var(--border);
             border-radius: 16px;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
         }
 
         .gallery-item:hover {
-            transform: scale(1.03);
+            transform: translateY(-6px) scale(1.02);
             border-color: var(--secondary);
-            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 242, 254, 0.3);
         }
 
         .gallery-item img {
@@ -375,6 +431,11 @@
             height: 180px;
             object-fit: cover;
             display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
         }
 
         .gallery-caption {
@@ -383,7 +444,7 @@
             font-weight: 600;
             text-align: center;
             color: #e0e0f0;
-            background: rgba(10, 10, 25, 0.85);
+            background: rgba(10, 10, 25, 0.9);
             margin-top: auto;
         }
 
@@ -401,7 +462,7 @@
 
         @keyframes widgetGlow {
             0% { border-color: var(--tiktok-cyan); box-shadow: 0 0 15px rgba(0, 242, 254, 0.3); }
-            50% { border-color: var(--primary); box-shadow: 0 0 20px rgba(255, 0, 127, 0.4); }
+            50% { border-color: var(--primary); box-shadow: 0 0 25px rgba(255, 0, 127, 0.5); }
             100% { border-color: var(--yt-red); box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); }
         }
 
@@ -470,6 +531,7 @@
 
         .widget-link-btn:hover {
             transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4);
         }
 
         footer {
@@ -490,8 +552,8 @@
 </head>
 <body>
 
-    <!-- Background YouTube Video -->
-    <div class="video-background">
+    <!-- Background YouTube Video (Fixed Screen-covering background) -->
+    <div class="video-background" id="videoBg">
         <iframe src="https://www.youtube.com/embed/6x9azE7ehgM?autoplay=1&mute=1&controls=0&loop=1&playlist=6x9azE7ehgM&showinfo=0&rel=0&iv_load_policy=3"
                 frameborder="0"
                 allow="autoplay; encrypted-media"
@@ -559,6 +621,7 @@
                     <div class="diamonds">
                         💎 {{ pkg.diamonds }}
                     </div>
+                    <div class="buy-note">Оплата за 2 удобных пака</div>
                 </div>
 
                 <a href="https://t.me/{{ telegram_handle }}?text=Привет!%20Хочу%20заказать%20{{ pkg.title }}%20({{ pkg.bots }}%20ботов)%20за%20{{ pkg.diamonds }}%20алмазов."
@@ -623,19 +686,56 @@
         </div>
 
         <footer>
-            <p>© Guild boost by Dex. Все права защищены. Связь: @{{ telegram_handle }} | TikTok & YT: @dextt2.0 | VK: klayener</p>
+            <p>© Guild boost by Dex. Все права защищены.</p>
         </footer>
 
     </div>
 
-    <!-- Automatic Audio Handler -->
+    <!-- 3D Card Tilt Effect, Video Interactive Motion & Audio Handler Script -->
     <script>
+        const videoBg = document.getElementById('videoBg');
+
+        // Легкое движение видеофона вслед за мышью
+        document.addEventListener('mousemove', (e) => {
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+
+            const moveX = ((e.clientX - windowWidth / 2) / windowWidth) * 20;
+            const moveY = ((e.clientY - windowHeight / 2) / windowHeight) * 20;
+
+            if (videoBg) {
+                videoBg.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+            }
+        });
+
+        // 3D-наклон карточек
+        document.querySelectorAll('.price-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = -((y - centerY) / centerY) * 12;
+                const rotateY = ((x - centerX) / centerX) * 12;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+            });
+        });
+
+        // Плеер фоновой музыки
         const audio = document.getElementById('bgMusic');
         const icon = document.getElementById('musicIcon');
         const text = document.getElementById('musicText');
         let isPlaying = false;
 
-        audio.volume = 0.20; // Громкость 20%
+        audio.volume = 0.20;
 
         function enableAudio() {
             if (!isPlaying) {
@@ -645,7 +745,7 @@
                     text.innerText = 'Музыка';
                     removeAllListeners();
                 }).catch(err => {
-                    console.log("Ожидание первого взаимодействия...");
+                    console.log("Ожидание взаимодействия...");
                 });
             }
         }
@@ -672,12 +772,10 @@
             }
         }
 
-        // 1. Пробуем мгновенный запуск
         document.addEventListener('DOMContentLoaded', () => {
             audio.play().then(() => {
                 isPlaying = true;
             }).catch(() => {
-                // 2. Если браузер заблокировал мгновенный Autoplay, вешаем триггеры на ВСЕ возможные действия
                 document.addEventListener('click', enableAudio);
                 document.addEventListener('touchstart', enableAudio);
                 document.addEventListener('mousemove', enableAudio);

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# Тарифная сетка буста гильдий
+# Тарифная сетка буста гильдий (обновленные цены)
 BOOST_PACKAGES = {
     1: {
         "title": "1 Отряд",
@@ -23,7 +23,7 @@ BOOST_PACKAGES = {
     3: {
         "title": "3 Отряда",
         "bots": 12,
-        "diamonds": 730,
+        "diamonds": 720,
         "tag": "Выгодный",
         "popular": False,
         "color": "#00ff88"
@@ -31,7 +31,7 @@ BOOST_PACKAGES = {
     4: {
         "title": "4 Отряда",
         "bots": 16,
-        "diamonds": 890,
+        "diamonds": 1060,
         "tag": "Ультра-Буст 🔥",
         "popular": False,
         "color": "#ffaa00"
@@ -56,7 +56,6 @@ def calculate():
             'squads': squads,
             'bots': pkg['bots'],
             'diamonds': pkg['diamonds'],
-            'usd_approx': round(pkg['diamonds'] / 100, 2),
             'telegram_url': f"https://t.me/klayener?text=Привет!%20Хочу%20заказать%20{pkg['title']}%20({pkg['bots']}%20ботов)%20за%20{pkg['diamonds']}%20алмазов."
         })
     return jsonify({'success': False, 'message': 'Выбор от 1 до 4 отрядов'}), 400
